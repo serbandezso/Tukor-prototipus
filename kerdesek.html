@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kérdések – TÜKÖR</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="index.html" class="logo">TÜ<span>KÖR</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Nyitó</a></li>
+        <li><a href="kozszereplok.html">Közszereplők</a></li>
+        <li><a href="kerdesek.html" class="active">Kérdések</a></li>
+        <li><a href="kerdes-feltetel.html">Kérdés feltétele</a></li>
+        <li><a href="vezetok-tukre.html">Vezetők tükre</a></li>
+        <li><a href="metodika.html">Módszertan</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:2rem;">
+    <h1 class="mb-2">Kérdések</h1>
+
+    <div class="filters" id="tema-filters">
+      <button class="chip active" data-tema="all">Összes</button>
+    </div>
+
+    <div class="filters" id="allapot-filters">
+      <button class="chip active" data-allapot="all">Minden állapot</button>
+      <button class="chip" data-allapot="megvalaszolva">🟢 Megválaszolva</button>
+      <button class="chip" data-allapot="resben">🟡 Részben</button>
+      <button class="chip" data-allapot="megvalaszolatlan">🟠 Megválaszolatlan</button>
+      <button class="chip" data-allapot="nem-valaszolt">🔴 Nem válaszolt</button>
+    </div>
+
+    <div id="list"></div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>TÜKÖR – prototípus · „Nem válaszolt” nem büntetés, hanem tény.</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Tema chips
+    const temaFilters = document.getElementById("tema-filters");
+    TEMÁK.forEach(t => {
+      const btn = document.createElement("button");
+      btn.className = "chip";
+      btn.dataset.tema = t;
+      btn.textContent = t;
+      temaFilters.appendChild(btn);
+    });
+
+    let currentTema = "all";
+    let currentAllapot = "all";
+
+    function renderList() {
+      const list = document.getElementById("list");
+      const filtered = KERDESEK.filter(k => {
+        const temaOk = currentTema === "all" || k.tema === currentTema;
+        const allOk = currentAllapot === "all" || k.allapot === currentAllapot;
+        return temaOk && allOk;
+      });
+
+      if (!filtered.length) {
+        list.innerHTML = "<p class='text-muted'>Nincs találat a szűrésre.</p>";
+        return;
+      }
+
+      list.innerHTML = filtered.map(k => {
+        const badge = getAllapotBadge(k.allapot);
+        return `
+          <div class="card">
+            <div class="flex justify-between items-center" style="flex-wrap:wrap;gap:0.5rem;">
+              <span class="badge ${badge.color}">${badge.text}</span>
+              <span class="text-muted" style="font-size:0.9rem;">${k.tema} · ${k.kozszereploNev}</span>
+            </div>
+            <p class="mt-2" style="font-size:1.1rem;">„${k.kerdes}”</p>
+            <a href="kerdes.html?id=${k.id}" class="btn btn-outline mt-2" style="font-size:0.9rem;">Tükör megtekintése</a>
+          </div>
+        `;
+      }).join("");
+    }
+
+    document.querySelectorAll("[data-tema]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-tema]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentTema = btn.dataset.tema;
+        renderList();
+      });
+    });
+
+    document.querySelectorAll("[data-allapot]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("[data-allapot]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentAllapot = btn.dataset.allapot;
+        renderList();
+      });
+    });
+
+    renderList();
+  </script>
+</body>
+</html>

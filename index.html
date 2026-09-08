@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TÜKÖR – Kérdezz. Válaszolj. Nézzünk szembe a valósággal.</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="index.html" class="logo">TÜ<span>KÖR</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Nyitó</a></li>
+        <li><a href="kozszereplok.html">Közszereplők</a></li>
+        <li><a href="kerdesek.html">Kérdések</a></li>
+        <li><a href="kerdes-feltetel.html">Kérdés feltétele</a></li>
+        <li><a href="vezetok-tukre.html">Vezetők tükre</a></li>
+        <li><a href="metodika.html">Módszertan</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>TÜKÖR</h1>
+      <p class="subtitle">Kérdezz. Válaszolj. Nézzünk szembe a valósággal.</p>
+
+      <div class="central-question">
+        <p>Mit kérdeznél attól, akinek hatalma van?</p>
+        <a href="kerdes-feltetel.html" class="btn">Kérdés feltétele</a>
+      </div>
+
+      <p class="hero-note">
+        A kérdést név nélkül teheted fel.<br>
+        A közszereplő válaszolhat.<br>
+        Az AI nem azt dönti el, hogy kinek van igaza — azt vizsgálja, hogy a válasz valóban szembenéz-e a kérdéssel.
+      </p>
+    </section>
+
+    <div id="ai-settings"></div>
+
+    <div class="principle">
+      <strong>Alapelv:</strong> Az AI nem mondja meg, ki az igaz ember. Nem mondja meg, melyik politikai oldalnak van igaza. Nem mondja meg, kire kell szavazni. Csak megmutatja, hogyan bánik a hatalom a kérdéssel.
+    </div>
+
+    <section class="mt-4">
+      <h2 class="mb-2">Mi ez?</h2>
+      <p class="text-muted" style="max-width:700px;">
+        A TÜKÖR nem hagyományos politikai portál, hanem nyilvános visszacsatolási rendszer.
+        Nem azt minősítjük, hogy kihez tartozol, hanem azt, hogy hogyan viszonyulsz a kellemetlen kérdésekhez.
+        A szín nem „jó ember–rossz ember” minősítés, hanem: mennyire képes a közszereplő kapcsolatban maradni a neki feltett kellemetlen kérdésekkel.
+      </p>
+    </section>
+
+    <section class="mt-4">
+      <h2 class="mb-2">Gyors áttekintés</h2>
+      <div class="metrics">
+        <div class="metric">
+          <div class="value">4</div>
+          <div class="label">Példa közszereplő</div>
+        </div>
+        <div class="metric">
+          <div class="value">4</div>
+          <div class="label">Példa kérdés</div>
+        </div>
+        <div class="metric">
+          <div class="value">8</div>
+          <div class="label">Mérési dimenzió</div>
+        </div>
+        <div class="metric">
+          <div class="value">∞</div>
+          <div class="label">AI csatlakoztatható</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>TÜKÖR – prototípus. A hatalom legfontosabb szenzora maga a valóság.</p>
+      <p class="mt-1">A Tükör nem uralkodni akar. Csak nem engedi, hogy a szenzort kikapcsolják.</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    initAISelector("ai-settings");
+  </script>
+</body>
+</html>

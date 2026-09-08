@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Közszereplő – TÜKÖR</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="index.html" class="logo">TÜ<span>KÖR</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Nyitó</a></li>
+        <li><a href="kozszereplok.html" class="active">Közszereplők</a></li>
+        <li><a href="kerdesek.html">Kérdések</a></li>
+        <li><a href="kerdes-feltetel.html">Kérdés feltétele</a></li>
+        <li><a href="vezetok-tukre.html">Vezetők tükre</a></li>
+        <li><a href="metodika.html">Módszertan</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:2rem;" id="content">
+    <p class="text-muted">Betöltés…</p>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>TÜKÖR – prototípus</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id") || "magyar-peter";
+    const k = KOZSZEREPLŐK.find(x => x.id === id) || KOZSZEREPLŐK[0];
+
+    document.title = `${k.nev} – TÜKÖR`;
+
+    const historyHtml = k.history.length
+      ? k.history.map(h => `
+          <div style="margin-bottom:0.75rem;">
+            <div class="flex justify-between text-muted" style="font-size:0.9rem;">
+              <span>${h.period}</span>
+              <span>${h.kozvetlen}% közvetlen · ${h.valasz}/${h.kerdesek} válasz</span>
+            </div>
+            <div class="history-bar">
+              <div class="fill" style="width:${h.kozvetlen}%"></div>
+            </div>
+          </div>
+        `).join("")
+      : "<p class='text-muted'>Még nincs elég adat a mintázathoz.</p>";
+
+    const vakfoltokHtml = k.vakfoltok.length
+      ? k.vakfoltok.map(v => `<p>${v}</p>`).join("")
+      : "<p class='text-muted'>Nincs kiemelt vakfolt.</p>";
+
+    document.getElementById("content").innerHTML = `
+      <div class="flex items-center gap-2 mb-2" style="flex-wrap:wrap;">
+        <h1>${k.nev}</h1>
+        ${renderScore(k.score, k.color)} <span class="text-muted">/ 100</span>
+      </div>
+
+      <p class="text-muted mb-2">Visszacsatolási profil</p>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="value">${k.kozvetlen}%</div>
+          <div class="label">Közvetlen válasz</div>
+        </div>
+        <div class="metric">
+          <div class="value">${k.konkret}%</div>
+          <div class="label">Konkrét válasz</div>
+        </div>
+        <div class="metric">
+          <div class="value">${k.kellemetlen}%</div>
+          <div class="label">Kellemetlen kérdések vállalása</div>
+        </div>
+        <div class="metric">
+          <div class="value">${k.forrasokkal}%</div>
+          <div class="label">Forrásokkal alátámasztott</div>
+        </div>
+        <div class="metric">
+          <div class="value">${k.onkorrekcio}</div>
+          <div class="label">Korábbi álláspont korrigálása</div>
+        </div>
+        <div class="metric">
+          <div class="value">${k.kitérő}%</div>
+          <div class="label">Kitérő válaszok</div>
+        </div>
+        <div class="metric">
+          <div class="value">${k.megvalaszolatlan}%</div>
+          <div class="label">Megválaszolatlan</div>
+        </div>
+        <div class="metric">
+          <div class="value" style="text-transform:capitalize;">${k.valosagkapcsolat}</div>
+          <div class="label">Valóságkapcsolat</div>
+        </div>
+      </div>
+
+      <div class="card mt-3">
+        <h3 class="mb-2">Mutasd, mi alapján értékelt az AI</h3>
+        <p class="text-muted">Minden egyes értékelés visszanézhető. (Prototípusban a példák a Kérdések oldalon.)</p>
+        <a href="kerdesek.html" class="btn btn-outline mt-2">Kérdések megtekintése</a>
+      </div>
+
+      <div class="card mt-3">
+        <h3 class="mb-2">Nyilvános válaszadási történet</h3>
+        ${historyHtml}
+      </div>
+
+      <div class="vakfolt">
+        <h3 style="margin-bottom:0.75rem;">🔍 A közszereplő visszatérő vakfoltjai</h3>
+        ${vakfoltokHtml}
+        <p class="text-muted mt-1" style="font-size:0.9rem;">Ez nem politikai vélemény. Ez kommunikációs mintázat.</p>
+      </div>
+    `;
+  </script>
+</body>
+</html>

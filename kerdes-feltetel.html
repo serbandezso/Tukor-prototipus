@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kérdés feltétele – TÜKÖR</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="index.html" class="logo">TÜ<span>KÖR</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Nyitó</a></li>
+        <li><a href="kozszereplok.html">Közszereplők</a></li>
+        <li><a href="kerdesek.html">Kérdések</a></li>
+        <li><a href="kerdes-feltetel.html" class="active">Kérdés feltétele</a></li>
+        <li><a href="vezetok-tukre.html">Vezetők tükre</a></li>
+        <li><a href="metodika.html">Módszertan</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:2rem;">
+    <h1 class="mb-2">Kérdés feltétele</h1>
+    <p class="text-muted mb-2">
+      A kérdést név nélkül teheted fel. A rendszer a beküldés előtt jelezheti, ha személyeskedő.
+      Ez nem cenzúra – a kérdés megtisztítása.
+    </p>
+
+    <div id="ai-settings"></div>
+
+    <div class="card">
+      <form id="kerdes-form">
+        <div class="form-group">
+          <label for="kerdes">Kérdésed</label>
+          <textarea id="kerdes" name="kerdes" placeholder="Írd ide a konkrét kérdést…" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="kozszereplo">Kinek szeretnéd feltenni?</label>
+          <select id="kozszereplo" name="kozszereplo" required>
+            <option value="">– közszereplő keresése –</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="tema">Téma</label>
+          <select id="tema" name="tema" required>
+            <option value="">– választás –</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Kötelezően kitöltendő</label>
+          <p class="text-muted" style="font-size:0.95rem;">
+            Mi az a konkrét kérdés, amelyre választ szeretnél kapni?
+          </p>
+        </div>
+
+        <div id="warning-box" style="display:none;" class="vakfolt mb-2">
+          <p id="warning-text"></p>
+          <button type="button" class="btn btn-outline mt-1" id="force-submit">Így is beküldöm</button>
+        </div>
+
+        <button type="submit" class="btn">Kérdés beküldése (prototípus)</button>
+      </form>
+    </div>
+
+    <div id="result" class="card mt-3" style="display:none;">
+      <h3>Prototípus – a kérdés rögzítve (helyben)</h3>
+      <p id="result-text" class="mt-1"></p>
+      <p class="text-muted mt-2" style="font-size:0.9rem;">
+        Valós rendszerben ez a közszereplő oldalához kerülne, és az AI elemezné a választ, ha érkezik.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>TÜKÖR – prototípus</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    initAISelector("ai-settings");
+
+    const selectK = document.getElementById("kozszereplo");
+    KOZSZEREPLŐK.forEach(k => {
+      const opt = document.createElement("option");
+      opt.value = k.id;
+      opt.textContent = k.nev;
+      selectK.appendChild(opt);
+    });
+
+    const selectT = document.getElementById("tema");
+    TEMÁK.forEach(t => {
+      const opt = document.createElement("option");
+      opt.value = t;
+      opt.textContent = t;
+      selectT.appendChild(opt);
+    });
+
+    let force = false;
+    const form = document.getElementById("kerdes-form");
+    const warningBox = document.getElementById("warning-box");
+    const warningText = document.getElementById("warning-text");
+
+    document.getElementById("force-submit").addEventListener("click", () => {
+      force = true;
+      form.requestSubmit();
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const kerdes = document.getElementById("kerdes").value.trim();
+      const kozszereploId = selectK.value;
+      const tema = selectT.value;
+
+      if (!force) {
+        const check = cleanQuestionCheck(kerdes);
+        if (check.warning) {
+          warningText.textContent = check.message;
+          warningBox.style.display = "block";
+          return;
+        }
+      }
+
+      warningBox.style.display = "none";
+      force = false;
+
+      // Simulate storage
+      const stored = JSON.parse(localStorage.getItem("tukor_kerdesek") || "[]");
+      const uj = {
+        id: Date.now(),
+        kerdes,
+        kozszereploId,
+        tema,
+        allapot: "megvalaszolatlan",
+        created: new Date().toISOString()
+      };
+      stored.push(uj);
+      localStorage.setItem("tukor_kerdesek", JSON.stringify(stored));
+
+      const nev = KOZSZEREPLŐK.find(x => x.id === kozszereploId)?.nev || kozszereploId;
+      document.getElementById("result").style.display = "block";
+      document.getElementById("result-text").textContent =
+        `„${kerdes}” → ${nev} (${tema}). Állapot: megválaszolatlan.`;
+      form.reset();
+    });
+  </script>
+</body>
+</html>

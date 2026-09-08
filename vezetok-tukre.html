@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vezetők tükre – TÜKÖR</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="index.html" class="logo">TÜ<span>KÖR</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Nyitó</a></li>
+        <li><a href="kozszereplok.html">Közszereplők</a></li>
+        <li><a href="kerdesek.html">Kérdések</a></li>
+        <li><a href="kerdes-feltetel.html">Kérdés feltétele</a></li>
+        <li><a href="vezetok-tukre.html" class="active">Vezetők tükre</a></li>
+        <li><a href="metodika.html">Módszertan</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:2rem;">
+    <h1 class="mb-2">A vezetők tükre</h1>
+    <p class="text-muted mb-2">
+      Nem rangsor. Nem „ki a legjobb politikus?”<br>
+      Hanem: ki képes a legtovább kapcsolatban maradni a valósággal akkor is, amikor a valóság kellemetlen?
+    </p>
+
+    <div class="principle">
+      Minden szín mögött ott a bizonyíték. Mert különben maga a Tükör válna azzá, amit meg akar akadályozni.
+    </div>
+
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Közszereplő</th>
+            <th>Állapot</th>
+            <th>Pontszám</th>
+            <th>Valóságkapcsolat</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+
+    <div class="mt-4">
+      <h3 class="mb-2">Színskála</h3>
+      <div class="metrics">
+        <div class="metric">
+          <div class="value"><span class="dot green"></span></div>
+          <div class="label">Nyitott</div>
+        </div>
+        <div class="metric">
+          <div class="value"><span class="dot yellow"></span></div>
+          <div class="label">Vegyes</div>
+        </div>
+        <div class="metric">
+          <div class="value"><span class="dot orange"></span></div>
+          <div class="label">Védekező</div>
+        </div>
+        <div class="metric">
+          <div class="value"><span class="dot red"></span></div>
+          <div class="label">Zárt</div>
+        </div>
+        <div class="metric">
+          <div class="value"><span class="dot black"></span></div>
+          <div class="label">Tartósan elzárkózó</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>TÜKÖR – prototípus</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    const labels = {
+      green: "Nyitott",
+      yellow: "Vegyes",
+      orange: "Védekező",
+      red: "Zárt",
+      black: "Tartósan elzárkózó"
+    };
+
+    const tbody = document.getElementById("table-body");
+    // Sort by score desc
+    const sorted = [...KOZSZEREPLŐK].sort((a, b) => b.score - a.score);
+    sorted.forEach(k => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><a href="kozszereplo.html?id=${k.id}">${k.nev}</a></td>
+        <td><span class="dot ${k.color}"></span> ${labels[k.color] || k.color}</td>
+        <td>${renderScore(k.score, k.color)}</td>
+        <td style="text-transform:capitalize;">${k.valosagkapcsolat}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  </script>
+</body>
+</html>

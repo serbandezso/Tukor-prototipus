@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módszertan – TÜKÖR</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="index.html" class="logo">TÜ<span>KÖR</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Nyitó</a></li>
+        <li><a href="kozszereplok.html">Közszereplők</a></li>
+        <li><a href="kerdesek.html">Kérdések</a></li>
+        <li><a href="kerdes-feltetel.html">Kérdés feltétele</a></li>
+        <li><a href="vezetok-tukre.html">Vezetők tükre</a></li>
+        <li><a href="metodika.html" class="active">Módszertan</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:2rem;">
+    <h1 class="mb-2">A Tükör módszertana</h1>
+    <p class="text-muted mb-2">Itt a legnagyobb átláthatóság. Mit mér az AI?</p>
+
+    <div id="ai-settings"></div>
+
+    <div class="card">
+      <ol style="padding-left:1.25rem; line-height:1.9;">
+        <li><strong>Közvetlenség</strong> – Válaszolt-e a kérdésre?</li>
+        <li><strong>Konkrétság</strong> – Tartalmaz-e ellenőrizhető állításokat?</li>
+        <li><strong>Relevancia</strong> – A válasz kapcsolódik-e a kérdéshez?</li>
+        <li><strong>Felelősségvállalás</strong> – Felismeri-e saját döntési felelősségét?</li>
+        <li><strong>Bizonytalanság kezelése</strong> – Képes-e azt mondani: „nem tudom”?</li>
+        <li><strong>Önkorrekció</strong> – Képes-e módosítani korábbi álláspontját?</li>
+        <li><strong>Ellentmondás</strong> – Összhangban van-e korábbi kijelentéseivel?</li>
+        <li><strong>Kellemetlen rész kezelése</strong> – A kérdés legnehezebb részére is válaszol-e?</li>
+      </ol>
+    </div>
+
+    <div class="card mt-3">
+      <h2 class="mb-2">Különleges mutató: Valóságkapcsolat</h2>
+      <p class="text-muted mb-2">
+        Nem keveredik bele egyszerűen a pontszámba – külön látszik.
+      </p>
+      <p>Példák a magas valóságkapcsolatra:</p>
+      <ul style="padding-left:1.25rem; margin-top:0.75rem; line-height:1.8;">
+        <li>„Nem tudom.”</li>
+        <li>„Ebben hibáztunk.”</li>
+        <li>„Az adataink alapján ezt most másképp látom.”</li>
+        <li>„A kérdés jogos, erre nincs jó válaszom.”</li>
+      </ul>
+      <p class="mt-2">
+        Ezek nem gyengeségek. Éppen ellenkezőleg.<br>
+        A rendszer azt jutalmazná, ha valaki képes kilépni a saját narratívájából.
+      </p>
+    </div>
+
+    <div class="card mt-3">
+      <h2 class="mb-2">AI csatlakoztatás (prototípus)</h2>
+      <p class="text-muted">
+        A honlap úgy van felépítve, hogy a válasz-elemző réteg cserélhető legyen.
+        Jelenleg beépített szimuláció fut. A választott szolgáltató (Grok, OpenAI, Claude, helyi modell)
+        a böngésző localStorage-jában tárolódik, és a későbbi API-hívásokhoz használható.
+      </p>
+      <p class="mt-2 text-muted">
+        Valós implementációban: a kérdés + válasz + módszertani prompt kerülne a kiválasztott modellhez,
+        a struktúrált output (közvetlenség %, konkrétság %, összegzés) pedig a tükör oldalon jelenne meg.
+      </p>
+    </div>
+
+    <div class="principle">
+      Az AI nem mondja meg, ki az igaz ember.<br>
+      Nem mondja meg, melyik politikai oldalnak van igaza.<br>
+      Nem mondja meg, kire kell szavazni.<br>
+      Csak megmutatja, hogyan bánik a hatalom a kérdéssel.
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>TÜKÖR – prototípus</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    initAISelector("ai-settings");
+  </script>
+</body>
+</html>

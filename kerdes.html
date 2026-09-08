@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kérdés → Válasz → Tükör – TÜKÖR</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="index.html" class="logo">TÜ<span>KÖR</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Nyitó</a></li>
+        <li><a href="kozszereplok.html">Közszereplők</a></li>
+        <li><a href="kerdesek.html" class="active">Kérdések</a></li>
+        <li><a href="kerdes-feltetel.html">Kérdés feltétele</a></li>
+        <li><a href="vezetok-tukre.html">Vezetők tükre</a></li>
+        <li><a href="metodika.html">Módszertan</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top:2rem;" id="content">
+    <p class="text-muted">Betöltés…</p>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>TÜKÖR – prototípus · Nem: „Hazudik.” Csak a tükör.</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get("id") || "1", 10);
+    const k = KERDESEK.find(x => x.id === id) || KERDESEK[0];
+    const badge = getAllapotBadge(k.allapot);
+
+    let aiHtml = "";
+    if (k.ai) {
+      const reszletek = k.ai.reszletek.map(r => {
+        if (r.ertek !== null && r.ertek !== undefined) {
+          return `<div class="flex justify-between items-center" style="margin-bottom:0.5rem;">
+            <span>${r.cimke}</span>
+            <span class="badge ${r.color}">${r.ertek}%</span>
+          </div>`;
+        }
+        return `<div class="mt-1"><span class="badge ${r.color}">${r.note || r.cimke}</span></div>`;
+      }).join("");
+
+      aiHtml = `
+        <div class="card mt-3">
+          <h3 class="mb-2">AI-elemzés</h3>
+          ${reszletek}
+          <p class="mt-3" style="font-style:italic;">„${k.ai.osszegzes}”</p>
+          <p class="text-muted mt-2" style="font-size:0.9rem;">
+            Aktív AI: <strong>${AI_PROVIDERS.find(p => p.id === getAIProvider())?.name || "mock"}</strong>
+            (prototípus – a valós elemzés a csatlakoztatott modell alapján történne)
+          </p>
+        </div>
+      `;
+    } else {
+      aiHtml = `
+        <div class="card mt-3">
+          <h3 class="mb-2">AI-elemzés</h3>
+          <p class="text-muted">Nincs válasz → nincs elemzés. A „nem válaszolt” állapot maga a tükör.</p>
+        </div>
+      `;
+    }
+
+    document.getElementById("content").innerHTML = `
+      <p class="text-muted mb-2">
+        <a href="kerdesek.html">← Vissza a kérdésekhez</a>
+      </p>
+
+      <div class="card">
+        <span class="badge ${badge.color}">${badge.text}</span>
+        <span class="text-muted" style="margin-left:0.75rem;font-size:0.9rem;">${k.tema}</span>
+        <h2 class="mt-2" style="font-size:1.25rem;">Állampolgári kérdés</h2>
+        <p class="mt-1" style="font-size:1.15rem;">„${k.kerdes}”</p>
+      </div>
+
+      <div class="card mt-3">
+        <h3 class="mb-2">Közszereplő válasza · <a href="kozszereplo.html?id=${k.kozszereploId}">${k.kozszereploNev}</a></h3>
+        ${k.valasz
+          ? `<p style="font-size:1.05rem;">„${k.valasz}”</p>`
+          : `<p class="text-muted">A közszereplő nem válaszolt.</p>`
+        }
+      </div>
+
+      ${aiHtml}
+
+      <div class="principle mt-4">
+        Itt vége. Nem: „Hazudik.” Ez döntő fontosságú.
+      </div>
+    `;
+  </script>
+</body>
+</html>
