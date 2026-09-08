@@ -2,17 +2,6 @@
 
 Nyilvános visszacsatolási rendszer: nem azt minősíti, kihez tartozol, hanem hogyan viszonyulsz a kellemetlen kérdésekhez.
 
-## Futtatás
-
-Statikus oldalak. Bármilyen egyszerű szerverrel:
-
-```bash
-cd /home/workdir/artifacts/tukor
-python3 -m http.server 8080
-```
-
-Majd böngészőben: http://localhost:8080
-
 ## Oldalak
 
 - `index.html` – nyitó
